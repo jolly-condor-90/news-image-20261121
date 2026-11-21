@@ -290,6 +290,133 @@ def ill_quake(d, x, y, w, h):
 MINI = ["fire", "AI", "chart", "planet", "deal", "robot", "bat", "boat"]
 SMALL_TAGS = ["KYIV: WARNING", "AI DATA TAX", "WALL ST: ROUT", "MERCURY ORBIT",
               "UK–EU DEAL", "ROBOT RULES", "RAHUL 136", "MYANMAR RULING"]
+
+def star(d, cx, cy, r, fill):
+    d.line([cx - r, cy, cx + r, cy], fill=fill, width=1)
+    d.line([cx, cy - r, cx, cy + r], fill=fill, width=1)
+    d.line([cx - r * 0.7, cy - r * 0.7, cx + r * 0.7, cy + r * 0.7], fill=fill, width=1)
+    d.line([cx - r * 0.7, cy + r * 0.7, cx + r * 0.7, cy - r * 0.7], fill=fill, width=1)
+
+def ill_wide(d, x, y, w, h, kind):
+    """A full-width scene for the small cards, drawn like the three lead pictures."""
+    def X(u): return x + u * w / 242.0
+    def Y(v): return y + v * h / 54.0
+    d.rectangle([x, y, x + w, y + h], fill=(232, 228, 212))
+    if kind == "fire":
+        d.rectangle([x, y, x + w, y + h], fill=(25, 35, 60))
+        for k in range(20):
+            d.point((X(6 + k * 12), Y(5 + (k * 11) % 26)), fill=(150, 172, 204))
+        heights = [18, 27, 22, 34, 25, 30, 20, 29, 24]
+        for k, hh in enumerate(heights):
+            bx = X(96 + k * 16)
+            d.rectangle([bx, Y(54 - hh), bx + X(13) - X(0), Y(54)], fill=(45, 58, 88))
+            for wy in range(int(Y(54 - hh + 4)), int(Y(50)), 7):
+                for wx in range(int(bx + 3), int(bx + 11), 6):
+                    d.rectangle([wx, wy, wx + 2, wy + 2], fill=(224, 188, 96))
+        for off in (0, 12):
+            pts = [(X(80 + t * 7), Y(30 - off) - 20 * math.sin(t / 12 * math.pi) + t * 0.5)
+                   for t in range(13)]
+            d.line(pts, fill=(244, 211, 134), width=2)
+            ex, ey = pts[-1]
+            star(d, ex, ey, 7, (236, 150, 62))
+        d.polygon([(X(206), Y(34)), (X(212), Y(22)), (X(218), Y(34))], fill=(214, 88, 46))
+    elif kind == "AI":
+        d.rectangle([x, y, x + w, y + h], fill=(22, 38, 62))
+        for k in range(14):
+            d.line([X(k * 18), y, X(k * 18), y + h], fill=(34, 54, 84))
+        for k in range(10):
+            d.line([x, Y(k * 5), x + w, Y(k * 5)], fill=(34, 54, 84))
+        for k in range(3):
+            bx = X(96 + k * 34)
+            d.rectangle([bx, Y(9), bx + X(28) - X(0), Y(49)], fill=(48, 64, 96), outline=(120, 156, 196))
+            for j in range(4):
+                d.line([bx + 4, Y(14 + j * 8), bx + 22, Y(14 + j * 8)], fill=(122, 202, 232), width=1)
+                d.ellipse([bx + 24, Y(14 + j * 8), bx + 26, Y(16 + j * 8)], fill=(214, 82, 62))
+        rrect(d, [X(196), Y(16), X(234), Y(42)], 3, fill=(226, 232, 240))
+        text(d, (X(215), Y(20)), "TAX %", F_MICRO, RED, "ma")
+    elif kind == "chart":
+        d.rectangle([x, y, x + w, y + h], fill=(240, 232, 216))
+        d.line([X(96), Y(46), X(236), Y(46)], fill=MUTED, width=1)
+        for k in range(5):
+            d.line([X(100 + k * 32), Y(8), X(100 + k * 32), Y(46)], fill=(214, 204, 184))
+        pts = [(X(96 + k * 11), Y(12 + 1.9 * k + ((-1) ** k) * 3)) for k in range(13)]
+        d.line(pts, fill=RED, width=3)
+        d.polygon([pts[-1], (X(228), Y(40)), (X(216), Y(38))], fill=RED)
+        text(d, (X(228), Y(48)), "−3.7%", F_MICRO, RED, "ra")
+        for k in range(3):
+            d.ellipse([X(204 + k * 12), Y(35), X(214 + k * 12), Y(45)], fill=(206, 158, 64), outline=(150, 112, 40))
+    elif kind == "planet":
+        d.rectangle([x, y, x + w, y + h], fill=(18, 28, 52))
+        for k in range(18):
+            a = k * math.pi / 9
+            d.line([X(96), Y(27), X(96 + 26 * math.cos(a)), Y(27 + 26 * math.sin(a))], fill=(216, 176, 86), width=1)
+        d.ellipse([X(180), Y(7), X(232), Y(51)], fill=(168, 142, 106), outline=(120, 100, 72), width=1)
+        d.ellipse([X(192), Y(16), X(200), Y(22)], fill=(142, 118, 88))
+        d.ellipse([X(210), Y(30), X(220), Y(38)], fill=(142, 118, 88))
+        d.rectangle([X(112), Y(22), X(134), Y(32)], fill=(198, 204, 214), outline=(120, 132, 150))
+        d.rectangle([X(100), Y(18), X(112), Y(36)], fill=(72, 108, 162))
+        d.rectangle([X(134), Y(18), X(146), Y(36)], fill=(72, 108, 162))
+        d.polygon([(X(112), Y(32)), (X(122), Y(32)), (X(117), Y(44))], fill=(238, 156, 64))
+    elif kind == "deal":
+        d.rectangle([x, y, x + X(121), y + h], fill=(38, 66, 132))
+        d.rectangle([x + X(121), y, x + w, y + h], fill=(30, 78, 152))
+        for k in range(7):
+            d.line([X(104 + k * 17), Y(4), X(104 + k * 17), Y(50)], fill=(224, 210, 90), width=2)
+        for k in range(4):
+            d.ellipse([X(112 + k * 28), Y(10), X(118 + k * 28), Y(16)], fill=(232, 214, 96))
+        d.polygon([(X(150), Y(24)), (X(164), Y(16)), (X(178), Y(24)), (X(164), Y(32))], fill=(222, 188, 140))
+        d.polygon([(X(164), Y(32)), (X(178), Y(24)), (X(192), Y(32)), (X(178), Y(40))], fill=(198, 152, 106))
+    elif kind == "robot":
+        d.rectangle([x, y, x + w, y + h], fill=(220, 229, 234))
+        # UN building with flags
+        d.rectangle([X(96), Y(12), X(148), Y(52)], fill=(142, 170, 190), outline=(72, 104, 126))
+        for k in range(5):
+            d.line([X(100 + k * 10), Y(12), X(100 + k * 10), Y(52)], fill=(88, 120, 144))
+        for k in range(3):
+            d.line([X(102 + k * 16), Y(12), X(102 + k * 16), Y(4)], fill=MUTED)
+            d.rectangle([X(102 + k * 16), Y(4), X(114 + k * 16), Y(9)], fill=(64, 122, 190))
+        # two humanoid robots
+        for cx in (170, 206):
+            rrect(d, [X(cx - 9), Y(14), X(cx + 9), Y(26)], 3, fill=(92, 102, 124))
+            d.ellipse([X(cx - 5), Y(17), X(cx - 2), Y(20)], fill=(180, 226, 240))
+            d.ellipse([X(cx + 2), Y(17), X(cx + 5), Y(20)], fill=(180, 226, 240))
+            d.rectangle([X(cx - 8), Y(27), X(cx + 8), Y(43)], fill=(104, 116, 138))
+            text(d, (X(cx), Y(30)), "AI", F_MICRO, (220, 238, 246), "ma")
+            d.line([X(cx - 8), Y(30), X(cx - 14), Y(38)], fill=(104, 116, 138), width=3)
+            d.line([X(cx + 8), Y(30), X(cx + 14), Y(38)], fill=(104, 116, 138), width=3)
+            d.line([X(cx - 4), Y(43), X(cx - 4), Y(51)], fill=(104, 116, 138), width=3)
+            d.line([X(cx + 4), Y(43), X(cx + 4), Y(51)], fill=(104, 116, 138), width=3)
+        rrect(d, [X(96), Y(42), X(152), Y(52)], 2, fill=(246, 246, 238))
+        text(d, (X(124), Y(44)), "CCW 2026", F_MICRO, INK, "ma")
+    elif kind == "bat":
+        d.rectangle([x, y, x + w, y + h], fill=(206, 226, 198))
+        d.rectangle([X(96), Y(38), X(236), Y(54)], fill=(96, 152, 92))
+        d.line([X(96), Y(38), X(236), Y(38)], fill=(72, 124, 72), width=2)
+        for sx in (166, 186, 206):
+            d.line([X(sx), Y(44), X(sx), Y(18)], fill=(224, 222, 208), width=3)
+            d.line([X(sx - 4), Y(18), X(sx + 4), Y(18)], fill=(224, 222, 208), width=2)
+        d.line([X(132), Y(44), X(160), Y(18)], fill=(156, 118, 78), width=5)
+        d.ellipse([X(158), Y(14), X(168), Y(24)], fill=RED)
+        rrect(d, [X(102), Y(4), X(152), Y(18)], 2, fill=(250, 250, 244))
+        text(d, (X(127), Y(6)), "239/1", F_MICRO, INK, "ma")
+    else:
+        d.rectangle([x, y, x + w, y + h], fill=(233, 227, 210))
+        # scales of justice: post, beam and two hanging pans
+        d.rectangle([X(130), Y(24), X(136), Y(52)], fill=(112, 86, 58))
+        d.polygon([(X(126), Y(52)), (X(140), Y(52)), (X(133), Y(46))], fill=(112, 86, 58))
+        d.line([X(92), Y(16), X(174), Y(16)], fill=(112, 86, 58), width=3)
+        d.ellipse([X(130), Y(12), X(136), Y(20)], fill=(200, 164, 66), outline=(112, 86, 58))
+        for px in (94, 172):
+            d.line([X(px), Y(17), X(px), Y(30)], fill=(120, 94, 60), width=1)
+            d.line([X(px - 13), Y(30), X(px + 13), Y(30)], fill=(120, 94, 60), width=2)
+            d.line([X(px - 13), Y(30), X(px - 9), Y(40)], fill=(120, 94, 60), width=1)
+            d.line([X(px + 13), Y(30), X(px + 9), Y(40)], fill=(120, 94, 60), width=1)
+            d.line([X(px - 9), Y(40), X(px + 9), Y(40)], fill=(120, 94, 60), width=2)
+        # gavel and ICJ plaque
+        d.line([X(194), Y(44), X(216), Y(24)], fill=(126, 96, 64), width=4)
+        d.rectangle([X(212), Y(12), X(232), Y(22)], fill=(106, 78, 52))
+        rrect(d, [X(188), Y(4), X(236), Y(16)], 2, fill=(250, 250, 244))
+        text(d, (X(212), Y(6)), "ICJ", F_MICRO, RED, "ma")
 def ill_mini(d, x, y, w, h, kind, col):
     """A larger, detailed drawing scaled to the card's illustration band."""
     d.rectangle([x, y, x + w, y + h], fill=(235, 230, 214))
@@ -460,11 +587,11 @@ def build():
         w, h = 244, 155
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
         d.rectangle([x + 1, y + 1, x + w - 1, y + 55], fill=(234, 230, 214))
+        ill_wide(d, x + 1, y + 1, w - 2, 54, MINI[i])
         tag = SMALL_TAGS[i]
         tw = d.textlength(tag, font=F_ISS) + 14
         rrect(d, [x + 5, y + 4, x + 5 + tw, y + 24], 2, fill=RED)
         text(d, (x + 11, y + 6), tag, F_ISS, (255, 255, 255))
-        ill_mini(d, x + 132, y + 5, 100, 46, MINI[i], RCOL[s[1]])
         # numbered topic line
         badge(d, x + 7, y + 58, s[0], s[1], 19)
         topic = s[2].split(",")[0].title() + "  ·  " + s[1].title()
