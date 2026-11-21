@@ -29,14 +29,14 @@ preview = os.path.join(os.path.dirname(here), "check21")
 os.makedirs(preview, exist_ok=True)
 im.resize((300, 300), Image.LANCZOS).save(os.path.join(preview, "preview300.png"))
 im.crop((10, 184, 335, 390)).resize((975, 618)).save(os.path.join(preview, "crop_main.png"))
-im.crop((14, 390, 1010, 694)).resize((1992, 608)).save(os.path.join(preview, "crop_smallcards.png"))
-im.crop((14, 698, 402, 958)).resize((1164, 780)).save(os.path.join(preview, "crop_map.png"))
-im.crop((400, 698, 1015, 956)).resize((1230, 516)).save(os.path.join(preview, "crop_list.png"))
+im.crop((14, 390, 1010, 714)).resize((1992, 648)).save(os.path.join(preview, "crop_smallcards.png"))
+im.crop((14, 718, 402, 958)).resize((1164, 720)).save(os.path.join(preview, "crop_map.png"))
+im.crop((400, 718, 1015, 956)).resize((1230, 476)).save(os.path.join(preview, "crop_list.png"))
 print("CHECK 2 previews written OK")
 
 # map label separation: each label centre must be > 16 px from every other
 import math
-sx, sy, mw, mh = 20, 716, 374, 234
+sx, sy, mw, mh = 20, 736, 374, 214
 def proj(lon, lat):
     return (sx + (lon + 180) / 360.0 * mw, sy + (84.0 - lat) / 144.0 * mh)
 used = []
