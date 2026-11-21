@@ -289,34 +289,52 @@ def ill_quake(d, x, y, w, h):
 
 MINI = ["fire", "AI", "chart", "planet", "deal", "robot", "bat", "boat"]
 def ill_mini(d, x, y, w, h, kind, col):
-    d.rectangle([x, y, x + w, y + h], fill=(238, 233, 220))
-    cx = x + 18
+    """A larger, detailed drawing scaled to the card's illustration band."""
+    d.rectangle([x, y, x + w, y + h], fill=(235, 230, 214))
+    d.line([x, y + h - 1, x + w, y + h - 1], fill=(203, 194, 173), width=1)
+    k = h / 22.0
+    cx = x + w * 0.5
+    def P(dx, dy):
+        return (cx + dx * k, y + dy * k)
     if kind == "fire":
-        d.rectangle([cx - 8, y + 4, cx + 8, y + 21], fill=(120, 128, 140))
-        d.polygon([(cx - 5, y + 4), (cx, y - 3), (cx + 6, y + 5)], fill=(210, 90, 50))
+        d.rectangle([P(-9, 6), P(9, 22)], fill=(104, 114, 128))
+        d.rectangle([P(-6, 10), P(-2, 14)], fill=(226, 194, 110))
+        d.rectangle([P(3, 10), P(7, 14)], fill=(226, 194, 110))
+        d.polygon([P(-6, 6), P(-1, -3), P(3, 4), P(7, -1), P(8, 7)], fill=(208, 88, 48))
+        d.polygon([P(-3, 6), P(0, 1), P(3, 6)], fill=(246, 188, 82))
     elif kind == "AI":
-        d.rectangle([cx - 9, y + 2, cx + 9, y + 20], fill=(60, 70, 95))
-        for k in range(3):
-            d.line([cx - 6, y + 6 + k * 5, cx + 6, y + 6 + k * 5], fill=(150, 205, 230), width=1)
-        text(d, (cx + 15, y + 6), "AI", F_MICRO, RED)
+        d.rectangle([P(-10, 1), P(10, 21)], fill=(52, 64, 90))
+        d.rectangle([P(-7, 4), P(7, 14)], fill=(24, 36, 58))
+        for j in range(3):
+            d.line([P(-5, 6 + j * 3), P(5, 6 + j * 3)], fill=(146, 206, 232), width=1)
+        d.line([P(-4, 17), P(4, 17)], fill=(146, 206, 232), width=1)
+        d.ellipse([P(-2, 15), P(2, 19)], fill=(208, 88, 48))
     elif kind == "chart":
-        d.line([(cx - 9, y + 4), (cx - 3, y + 10), (cx + 2, y + 7), (cx + 9, y + 19)], fill=RED, width=2)
-        d.line([cx - 10, y + 20, cx + 10, y + 20], fill=MUTED)
+        d.line([P(-10, 19), P(10, 19)], fill=MUTED, width=1)
+        d.line([P(-9, 4), P(-3, 11), P(2, 7), P(10, 18)], fill=RED, width=2)
+        d.polygon([P(10, 18), P(5, 17), P(9, 12)], fill=RED)
     elif kind == "planet":
-        d.ellipse([cx - 8, y + 3, cx + 8, y + 19], fill=(168, 142, 106))
-        d.ellipse([cx - 13, y + 8, cx + 13, y + 14], outline=(130, 110, 80), width=1)
+        d.ellipse([P(-8, 3), P(8, 19)], fill=(170, 143, 105))
+        d.ellipse([P(-13, 8), P(13, 14)], outline=(124, 103, 74), width=2)
+        d.ellipse([P(-3, 7), P(2, 12)], fill=(190, 166, 128))
     elif kind == "deal":
-        d.polygon([(cx - 10, y + 12), (cx - 2, y + 6), (cx + 3, y + 13), (cx + 10, y + 8)],
-                  fill=(196, 152, 108))
+        d.polygon([P(-11, 12), P(-3, 5), P(2, 12), P(11, 7)], fill=(194, 148, 104))
+        d.polygon([P(-11, 12), P(-3, 18), P(2, 12)], fill=(170, 126, 86))
+        d.ellipse([P(-11, 11), P(-7, 15)], fill=(222, 190, 150))
+        d.ellipse([P(7, 6), P(11, 10)], fill=(222, 190, 150))
     elif kind == "robot":
-        d.rectangle([cx - 7, y + 5, cx + 7, y + 18], fill=(100, 106, 122))
-        d.line([cx, y + 18, cx + 7, y + 22, cx + 12, y + 14], fill=(100, 106, 122), width=2)
+        d.rectangle([P(-8, 4), P(8, 17)], fill=(96, 104, 122))
+        d.ellipse([P(-3, 7), P(3, 13)], fill=(198, 218, 232))
+        d.line([P(0, 17), P(6, 21), P(11, 12)], fill=(96, 104, 122), width=3)
+        d.ellipse([P(9, 10), P(13, 14)], fill=RED)
     elif kind == "bat":
-        d.line([cx - 9, y + 19, cx + 9, y + 3], fill=(150, 118, 78), width=3)
-        d.ellipse([cx + 6, y + 1, cx + 12, y + 7], fill=RED)
+        d.line([P(-10, 20), P(9, 3)], fill=(150, 118, 78), width=4)
+        d.ellipse([P(-13, 18), P(-7, 22)], fill=(150, 118, 78))
+        d.ellipse([P(6, 1), P(12, 7)], fill=RED)
     else:
-        d.polygon([(cx - 11, y + 14), (cx + 11, y + 14), (cx + 5, y + 21), (cx - 6, y + 21)], fill=(86, 130, 156))
-        d.line([cx, y + 14, cx + 3, y + 2], fill=MUTED)
+        d.polygon([P(-12, 12), P(12, 12), P(6, 21), P(-7, 21)], fill=(82, 126, 154))
+        d.polygon([P(-12, 12), P(-6, 6), P(9, 6), P(12, 12)], fill=(108, 156, 184))
+        d.line([P(0, 12), P(3, 1)], fill=MUTED, width=2)
 
 def draw_map(d, sx, sy, mw, mh):
     d.rectangle([sx, sy, sx + mw, sy + mh], fill=OCEAN, outline=HAIR)
@@ -370,35 +388,35 @@ def build():
     im = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(im)
 
-    # masthead
-    text(d, (14, 10), "THE WORLD IN ONE DAY", F_KICK, RED)
-    text(d, (W - 14, 12), "35 STORIES · 7 REGIONS · EVERY STORY DATED SATURDAY 21 NOVEMBER 2026",
+    # compact masthead
+    text(d, (14, 8), "THE WORLD IN ONE DAY", F_KICK, RED)
+    text(d, (W - 14, 9), "35 STORIES · 7 REGIONS · EVERY STORY DATED SATURDAY 21 NOVEMBER 2026",
          F_TINY, MUTED, "ra")
-    text(d, (W / 2, 56), "Saturday 21 November 2026", F_HEAD, INK, "mm")
-    text(d, (W / 2, 99), "COP31 overtime  ·  three missiles down over Riyadh  ·  M6.7 Peru quake  ·  Bitcoin below $56k",
+    text(d, (W / 2, 45), "Saturday 21 November 2026", F_HEAD, INK, "mm")
+    text(d, (W / 2, 82), "COP31 overtime  ·  three missiles down over Riyadh  ·  M6.7 Peru quake  ·  Bitcoin below $56k",
          F_SUB, RED, "mm")
-    d.line([14, 112, W - 14, 112], fill=INK, width=2)
+    d.line([14, 96, W - 14, 96], fill=INK, width=2)
 
-    # six big numbers
+    # six big numbers, tighter
     cw = (W - 28) / 6
     for k, (val, lab) in enumerate(METRICS):
         x = 14 + k * cw
         if k:
-            d.line([x, 118, x, 160], fill=HAIR, width=1)
-        text(d, (x + 8, 116), val, F_MET, RED)
-        text(d, (x + 8, 147), lab, F_LABEL, MUTED)
-    d.line([14, 166, W - 14, 166], fill=INK, width=1)
+            d.line([x, 100, x, 133], fill=HAIR, width=1)
+        text(d, (x + 8, 99), val, F_MET, RED)
+        text(d, (x + 8, 125), lab, F_LABEL, MUTED)
+    d.line([14, 138, W - 14, 138], fill=INK, width=1)
 
     # most-reported topics, ordered by number of reports
-    text(d, (14, 171), "MOST-REPORTED TOPICS →", F_LABEL, INK)
+    text(d, (14, 142), "MOST-REPORTED TOPICS →", F_LABEL, INK)
     tx = 168
     for k, t in enumerate(TOPICS):
         col = REGIONS[k % 7][1]
         tw = d.textlength(t, font=F_TAG) + 14
-        rrect(d, [tx, 169, tx + tw, 184], 3, fill=col)
-        text(d, (tx + 7, 170), t, F_TAG, (255, 255, 255))
+        rrect(d, [tx, 140, tx + tw, 156], 3, fill=col)
+        text(d, (tx + 7, 141), t, F_TAG, (255, 255, 255))
         tx += tw + 5
-    d.line([14, 190, W - 14, 190], fill=HAIR, width=1)
+    d.line([14, 160, W - 14, 160], fill=HAIR, width=1)
 
     # region legend
     counts = {}
@@ -408,55 +426,54 @@ def build():
     for name, col in REGIONS:
         lab = "%s %d" % (name, counts.get(name, 0))
         lw = d.textlength(lab, font=F_LABEL) + 12
-        d.rectangle([lx, 195, lx + lw, 210], fill=col)
-        text(d, (lx + 6, 197), lab, F_LABEL, (255, 255, 255))
+        d.rectangle([lx, 163, lx + lw, 179], fill=col)
+        text(d, (lx + 6, 165), lab, F_LABEL, (255, 255, 255))
         lx += lw + 4
-    d.line([14, 215, W - 14, 215], fill=INK, width=2)
+    d.line([14, 184, W - 14, 184], fill=INK, width=2)
 
     # three main cards
     ills = [ill_globe, ill_missiles, ill_quake]
     for i in range(3):
         s = STORIES[i]
         x = 14 + i * 338
-        y = 220
-        w, h = 322, 216
+        y = 190
+        w, h = 322, 198
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
-        ills[i](d, x + 1, y + 1, w - 2, 90)
-        d.rectangle([x + 1, y + 91, x + w - 1, y + 110], fill=RCOL[s[1]])
-        text(d, (x + 7, y + 94), str(s[0]), F_BADGE, (255, 255, 255))
+        ills[i](d, x + 1, y + 1, w - 2, 78)
+        d.rectangle([x + 1, y + 79, x + w - 1, y + 98], fill=RCOL[s[1]])
+        text(d, (x + 7, y + 82), str(s[0]), F_BADGE, (255, 255, 255))
         place = fit(d, s[2] + "  ·  " + s[1], F_SMALL, w - 108)
-        text(d, (x + 28, y + 95), place, F_SMALL, (255, 255, 255))
-        text(d, (x + w - 6, y + 96), s[5], F_MICRO, (255, 255, 255), "ra")
-        yy = lines(d, (x + 8, y + 115), s[3], F_CARD, w - 16, 22, INK, 2)
-        lines(d, (x + 8, yy + 4), s[4], F_BODY, w - 16, 15, INK, 3)
+        text(d, (x + 28, y + 83), place, F_SMALL, (255, 255, 255))
+        text(d, (x + w - 6, y + 84), s[5], F_MICRO, (255, 255, 255), "ra")
+        yy = lines(d, (x + 8, y + 103), s[3], F_CARD, w - 16, 20, INK, 2)
+        lines(d, (x + 8, yy + 4), s[4], F_BODY, w - 16, 14, INK, 3)
 
-    # eight small cards
+    # eight larger small cards with roomier illustrations and numbers
     for i in range(8):
         s = STORIES[3 + i]
         row, col = divmod(i, 4)
         x = 14 + col * 250
-        y = 442 + row * 107
-        w, h = 244, 101
+        y = 401 + row * 140
+        w, h = 244, 134
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
-        d.rectangle([x + 1, y + 1, x + w - 1, y + 24], fill=(236, 231, 217))
-        badge(d, x + 5, y + 4, s[0], s[1], 16)
-        ill_mini(d, x + 30, y + 3, 40, 20, MINI[i], RCOL[s[1]])
-        text(d, (x + w - 6, y + 6), s[1], F_MICRO, MUTED, "ra")
-        lines(d, (x + 7, y + 29), s[3], F_CARD2, w - 14, 19, INK, 2)
-        lines(d, (x + 7, y + 69), s[4] + " (" + s[5] + ")", F_TINY, w - 14, 13, MUTED, 2)
+        d.rectangle([x + 1, y + 1, x + w - 1, y + 40], fill=(236, 231, 217))
+        badge(d, x + 6, y + 7, s[0], s[1], 24)
+        ill_mini(d, x + 36, y + 4, 64, 32, MINI[i], RCOL[s[1]])
+        text(d, (x + w - 6, y + 13), s[1], F_MICRO, MUTED, "ra")
+        lines(d, (x + 8, y + 45), s[3], F_CARD2, w - 16, 20, INK, 2)
+        lines(d, (x + 8, y + 90), s[4] + " (" + s[5] + ")", F_TINY, w - 16, 13, MUTED, 3)
 
     # bottom: map left, story list right
-    d.line([14, 655, W - 14, 655], fill=INK, width=2)
-    rrect(d, [14, 662, 400, 934], 3, fill=(255, 254, 249), outline=HAIR)
-    text(d, (20, 665), "WHERE IT HAPPENED", F_LABEL, INK)
-    draw_map(d, 20, 681, 374, 235)
-    text(d, (20, 920), "Numbers 1–35, coloured by region · dots and leader lines keep labels apart", F_MICRO, MUTED)
+    d.line([14, 681, W - 14, 681], fill=INK, width=2)
+    rrect(d, [14, 687, 400, 930], 3, fill=(255, 254, 249), outline=HAIR)
+    text(d, (20, 689), "WHERE IT HAPPENED · NUMBERS 1–35 IN REGION COLOURS", F_LABEL, INK)
+    draw_map(d, 20, 703, 374, 221)
 
-    text(d, (408, 665), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
+    text(d, (408, 688), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
     for idx, s in enumerate(STORIES[12:]):
         col, row = divmod(idx, 12)
         x = 408 + col * 300
-        y = 684 + row * 20
+        y = 707 + row * 19
         d.rectangle([x, y + 1, x + 13, y + 13], fill=RCOL[s[1]])
         text(d, (x + 6.5, y + 7), str(s[0]), F_MICRO, (255, 255, 255), "mm")
         label = s[3]
@@ -464,16 +481,16 @@ def build():
             label = s[2].title() + " — " + label
         text(d, (x + 17, y + 1), fit(d, label, F_LIST, 279), F_LIST, INK)
 
-    # footer
-    rrect(d, [14, 940, W - 14, 991], 3, fill=(252, 246, 230), outline=RED, width=1)
-    text(d, (21, 944), "DATE CHECK:", F_LISTB, RED)
-    lines(d, (108, 944),
-          "Every story above happened, or was first reported, on Saturday 21 November 2026 in at least one time zone. "
-          "Nothing from 19 or 20 November is counted; disputed claims are attributed to their source.",
-          F_SMALL, W - 140, 14, INK, 2)
-    text(d, (14, 997),
+    # slim date-check and source lines hugging the bottom edge
+    rrect(d, [14, 938, W - 14, 968], 3, fill=(252, 246, 230), outline=RED, width=1)
+    text(d, (21, 942), "DATE CHECK:", F_LISTB, RED)
+    text(d, (108, 943),
+         "Every story above happened or was first reported on Saturday 21 November 2026 (any time zone). "
+         "Nothing from 19–20 November counted; claims attributed to source.",
+         F_SMALL, INK)
+    text(d, (14, 975),
          "Sources: Reuters · AP · AFP · BBC · Al Jazeera · ESA · USGS · Kyodo · Anadolu · Guardian · Punch · ABC · RNZ. "
-         "Map from Natural Earth 110m; all illustrations and layout drawn in code.",
+         "Map: Natural Earth 110m; illustrations and layout drawn in code.",
          F_MICRO, MUTED)
 
     out = os.path.join(os.path.dirname(__file__), "entry.png")
