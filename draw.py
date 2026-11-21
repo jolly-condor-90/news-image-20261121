@@ -262,7 +262,7 @@ def ill_missiles(d, x, y, w, h):
         d.line([ex, ey - 11, ex, ey + 11], fill=(255, 222, 140), width=1)
     rrect(d, [x + 8, y + 7, x + 106, y + 26], 3, fill=(190, 44, 44))
     text(d, (x + 14, y + 10), "3 DOWNED", F_TAG, (255, 255, 255))
-    text(d, (x + w - 8, y + h - 15), "RIYADH · 01:45 UTC", F_MICRO, (208, 218, 235), "ra")
+    text(d, (x + w - 8, y + 8), "RIYADH · 01:45 UTC", F_MICRO, (208, 218, 235), "ra")
 
 def ill_quake(d, x, y, w, h):
     d.rectangle([x, y, x + w, y + h], fill=(238, 228, 205))
