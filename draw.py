@@ -225,7 +225,7 @@ def ill_globe(d, x, y, w, h):
         d.line([ox + 17 * math.sin(a), oy - 17 * math.cos(a), ox + 20 * math.sin(a), oy - 20 * math.cos(a)], fill=MUTED)
     d.line([ox, oy, ox, oy - 14], fill=INK, width=2)
     d.line([ox, oy, ox + 10, oy + 4], fill=INK, width=2)
-    text(d, (ox, oy + orr + 5), "DAY 13", F_MICRO, RED, "ma")
+    text(d, (ox, oy + orr - 1), "DAY 13", F_MICRO, RED, "ma")
     # draft papers
     px = x + 274
     for k in (0, 1, 2):
@@ -417,6 +417,109 @@ def ill_wide(d, x, y, w, h, kind):
         d.rectangle([X(212), Y(12), X(232), Y(22)], fill=(106, 78, 52))
         rrect(d, [X(188), Y(4), X(236), Y(16)], 2, fill=(250, 250, 244))
         text(d, (X(212), Y(6)), "ICJ", F_MICRO, RED, "ma")
+def ill_bold(d, x, y, w, h, kind):
+    """High-contrast, large-shape illustrations that survive a 300 px preview."""
+    def X(u): return x + u * w / 242.0
+    def Y(v): return y + v * h / 66.0
+    if kind == "fire":
+        d.rectangle([x, y, x + w, y + h], fill=(22, 34, 62))
+        for k, hh in enumerate((24, 36, 28, 44, 30, 40, 26)):
+            bx = X(94 + k * 21)
+            d.rectangle([bx, Y(66 - hh), bx + X(18) - X(0), Y(66)], fill=(44, 60, 94))
+            for j in range(2):
+                d.rectangle([bx + 5 + j * 8, Y(66 - hh + 8), bx + 10 + j * 8, Y(66 - hh + 15)],
+                            fill=(246, 204, 92))
+        for off in (0, 14):
+            pts = [(X(82 + t * 9), Y(34 - off) - 22 * math.sin(t / 12 * math.pi) + t * 0.6)
+                   for t in range(13)]
+            d.line(pts, fill=(255, 214, 112), width=4)
+            star(d, pts[-1][0], pts[-1][1], 11, (244, 138, 50))
+        d.polygon([(X(210), Y(48)), (X(218), Y(26)), (X(226), Y(48))], fill=(232, 76, 44))
+        d.rectangle([X(96), Y(52), X(120), Y(64)], fill=(60, 112, 186))
+        d.rectangle([X(96), Y(58), X(120), Y(64)], fill=(248, 212, 72))
+    elif kind == "AI":
+        d.rectangle([x, y, x + w, y + h], fill=(18, 34, 60))
+        for k in range(2):
+            bx = X(96 + k * 56)
+            d.rectangle([bx, Y(6), bx + X(46) - X(0), Y(60)], fill=(46, 66, 104), outline=(128, 178, 220), width=2)
+            for j in range(3):
+                d.line([bx + 6, Y(15 + j * 14), bx + 38, Y(15 + j * 14)], fill=(124, 214, 244), width=3)
+                d.ellipse([bx + 38, Y(12 + j * 14), bx + 43, Y(17 + j * 14)], fill=(238, 84, 62))
+        rrect(d, [X(200), Y(16), X(238), Y(46)], 4, fill=(248, 250, 252))
+        text(d, (X(219), Y(22)), "TAX%", font(12, True), RED, "ma")
+    elif kind == "chart":
+        d.rectangle([x, y, x + w, y + h], fill=(244, 236, 218))
+        d.line([X(94), Y(56), X(238), Y(56)], fill=(110, 100, 86), width=2)
+        pts = [(X(96 + k * 12), Y(12 + 2.4 * k + ((-1) ** k) * 4)) for k in range(12)]
+        d.line(pts, fill=RED, width=5)
+        d.polygon([pts[-1], (X(238), Y(50)), (X(220), Y(48))], fill=RED)
+        text(d, (X(236), Y(6)), "−3.7%", font(12, True), RED, "ra")
+        for k in range(3):
+            cx = X(202 + k * 15)
+            d.ellipse([cx - 9, Y(48), cx + 9, Y(64)], fill=(224, 176, 68), outline=(132, 96, 36), width=2)
+    elif kind == "planet":
+        d.rectangle([x, y, x + w, y + h], fill=(16, 26, 50))
+        for k in range(8):
+            a = k * math.pi / 4
+            d.line([X(100), Y(33), X(100 + 30 * math.cos(a)), Y(33 + 30 * math.sin(a))],
+                   fill=(250, 196, 84), width=3)
+        d.ellipse([X(172), Y(6), X(236), Y(64)], fill=(178, 150, 110), outline=(110, 90, 64), width=2)
+        d.ellipse([X(188), Y(18), X(200), Y(29)], fill=(140, 116, 84))
+        d.ellipse([X(212), Y(40), X(226), Y(52)], fill=(140, 116, 84))
+        d.rectangle([X(108), Y(25), X(140), Y(39)], fill=(214, 220, 230), outline=(92, 106, 130), width=2)
+        d.rectangle([X(94), Y(18), X(108), Y(46)], fill=(64, 122, 194))
+        d.rectangle([X(140), Y(18), X(154), Y(46)], fill=(64, 122, 194))
+        d.polygon([(X(108), Y(39)), (X(140), Y(39)), (X(124), Y(60))], fill=(248, 154, 52))
+    elif kind == "deal":
+        d.rectangle([x, y, x + X(121), y + h], fill=(36, 62, 130))
+        d.rectangle([x + X(121), y, x + w, y + h], fill=(26, 76, 154))
+        for k in range(5):
+            d.line([X(96 + k * 27), Y(4), X(96 + k * 27), Y(62)], fill=(250, 216, 84), width=4)
+        for k in range(4):
+            d.ellipse([X(100 + k * 30), Y(9), X(112 + k * 30), Y(21)], fill=(250, 220, 96))
+        d.polygon([(X(146), Y(28)), (X(162), Y(18)), (X(180), Y(28)), (X(162), Y(40))], fill=(234, 188, 138))
+        d.polygon([(X(162), Y(40)), (X(180), Y(28)), (X(198), Y(40)), (X(180), Y(54))], fill=(192, 136, 92))
+    elif kind == "robot":
+        d.rectangle([x, y, x + w, y + h], fill=(216, 228, 236))
+        d.rectangle([X(94), Y(12), X(150), Y(62)], fill=(140, 170, 192), outline=(60, 96, 122), width=2)
+        for k in range(4):
+            d.line([X(100 + k * 14), Y(12), X(100 + k * 14), Y(62)], fill=(70, 104, 130), width=2)
+        for cx in (172, 212):
+            rrect(d, [X(cx - 12), Y(12), X(cx + 12), Y(30)], 4, fill=(74, 86, 112))
+            d.ellipse([X(cx - 8), Y(17), X(cx - 3), Y(22)], fill=(160, 232, 248))
+            d.ellipse([X(cx + 3), Y(17), X(cx + 8), Y(22)], fill=(160, 232, 248))
+            d.rectangle([X(cx - 11), Y(32), X(cx + 11), Y(52)], fill=(96, 110, 138))
+            text(d, (X(cx), Y(36)), "AI", font(10, True), (236, 246, 250), "ma")
+            d.line([X(cx - 11), Y(36), X(cx - 18), Y(46)], fill=(96, 110, 138), width=4)
+            d.line([X(cx + 11), Y(36), X(cx + 18), Y(46)], fill=(96, 110, 138), width=4)
+        rrect(d, [X(94), Y(50), X(150), Y(64)], 2, fill=(250, 250, 244))
+        text(d, (X(122), Y(53)), "CCW 2026", font(10, True), INK, "ma")
+    elif kind == "bat":
+        d.rectangle([x, y, x + w, y + h], fill=(202, 228, 194))
+        d.rectangle([X(94), Y(46), X(238), Y(66)], fill=(82, 146, 82))
+        for sx in (168, 190, 212):
+            d.line([X(sx), Y(54), X(sx), Y(20)], fill=(250, 248, 238), width=5)
+            d.line([X(sx - 6), Y(20), X(sx + 6), Y(20)], fill=(250, 248, 238), width=3)
+        d.line([X(132), Y(52), X(160), Y(20)], fill=(146, 104, 66), width=8)
+        d.ellipse([X(156), Y(12), X(172), Y(28)], fill=RED)
+        rrect(d, [X(98), Y(4), X(154), Y(22)], 3, fill=(252, 252, 246))
+        text(d, (X(126), Y(7)), "239/1", font(11, True), INK, "ma")
+    else:
+        d.rectangle([x, y, x + w, y + h], fill=(234, 226, 206))
+        d.rectangle([X(128), Y(30), X(136), Y(66)], fill=(96, 72, 48))
+        d.line([X(88), Y(18), X(176), Y(18)], fill=(96, 72, 48), width=5)
+        d.ellipse([X(128), Y(12), X(136), Y(24)], fill=(226, 180, 64), outline=(96, 72, 48), width=2)
+        for px in (92, 172):
+            d.line([X(px), Y(19), X(px), Y(38)], fill=(96, 72, 48), width=3)
+            d.line([X(px - 17), Y(38), X(px + 17), Y(38)], fill=(96, 72, 48), width=4)
+            d.line([X(px - 17), Y(38), X(px - 11), Y(52)], fill=(96, 72, 48), width=2)
+            d.line([X(px + 17), Y(38), X(px + 11), Y(52)], fill=(96, 72, 48), width=2)
+            d.line([X(px - 11), Y(52), X(px + 11), Y(52)], fill=(96, 72, 48), width=4)
+        d.line([X(194), Y(56), X(220), Y(32)], fill=(110, 78, 50), width=6)
+        d.rectangle([X(214), Y(16), X(238), Y(30)], fill=(96, 66, 44))
+        rrect(d, [X(188), Y(4), X(238), Y(20)], 3, fill=(252, 252, 246))
+        text(d, (X(213), Y(7)), "ICJ", font(11, True), RED, "ma")
+
 def ill_mini(d, x, y, w, h, kind, col):
     """A larger, detailed drawing scaled to the card's illustration band."""
     d.rectangle([x, y, x + w, y + h], fill=(235, 230, 214))
@@ -566,7 +669,7 @@ def build():
         s = STORIES[i]
         x = 14 + i * 338
         y = 188
-        w, h = 322, 198
+        w, h = 322, 186
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
         ills[i](d, x + 1, y + 1, w - 2, 78)
         d.rectangle([x + 1, y + 79, x + w - 1, y + 98], fill=RCOL[s[1]])
@@ -575,7 +678,7 @@ def build():
         text(d, (x + 28, y + 83), place, F_SMALL, (255, 255, 255))
         text(d, (x + w - 6, y + 84), s[5], F_MICRO, (255, 255, 255), "ra")
         yy = lines(d, (x + 8, y + 103), s[3], F_CARD, w - 16, 20, INK, 2)
-        lines(d, (x + 8, yy + 4), s[4], F_BODY, w - 16, 14, INK, 3)
+        lines(d, (x + 8, yy + 4), s[4], F_BODY, w - 16, 13, INK, 3)
 
     # eight small cards, styled like the leading entries: large illustration with a
     # bold red label, a numbered topic line, a big headline and a short body.
@@ -583,35 +686,35 @@ def build():
         s = STORIES[3 + i]
         row, col = divmod(i, 4)
         x = 14 + col * 250
-        y = 394 + row * 161
-        w, h = 244, 155
+        y = 384 + row * 175
+        w, h = 244, 169
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
-        d.rectangle([x + 1, y + 1, x + w - 1, y + 55], fill=(234, 230, 214))
-        ill_wide(d, x + 1, y + 1, w - 2, 54, MINI[i])
+        d.rectangle([x + 1, y + 1, x + w - 1, y + 66], fill=(234, 230, 214))
+        ill_bold(d, x + 1, y + 1, w - 2, 65, MINI[i])
         tag = SMALL_TAGS[i]
         tw = d.textlength(tag, font=F_ISS) + 14
         rrect(d, [x + 5, y + 4, x + 5 + tw, y + 24], 2, fill=RED)
         text(d, (x + 11, y + 6), tag, F_ISS, (255, 255, 255))
         # numbered topic line
-        badge(d, x + 7, y + 58, s[0], s[1], 19)
+        badge(d, x + 7, y + 69, s[0], s[1], 20)
         topic = s[2].split(",")[0].title() + "  ·  " + s[1].title()
-        text(d, (x + 31, y + 60), fit(d, topic, F_TAG, w - 125), F_TAG, RCOL[s[1]])
-        text(d, (x + w - 6, y + 61), s[5].split(" · ")[0], F_MICRO, MUTED, "ra")
-        d.line([x + 6, y + 80, x + w - 6, y + 80], fill=(214, 204, 184), width=1)
-        lines(d, (x + 8, y + 84), s[3], F_CARD2, w - 16, 19, INK, 2)
-        lines(d, (x + 8, y + 124), s[4], F_TINY, w - 16, 13, MUTED, 2)
+        text(d, (x + 32, y + 71), fit(d, topic, F_TAG, w - 126), F_TAG, RCOL[s[1]])
+        text(d, (x + w - 6, y + 72), s[5].split(" · ")[0], F_MICRO, MUTED, "ra")
+        d.line([x + 6, y + 92, x + w - 6, y + 92], fill=(214, 204, 184), width=1)
+        lines(d, (x + 8, y + 96), s[3], F_CARD2, w - 16, 20, INK, 2)
+        lines(d, (x + 8, y + 138), s[4], F_TINY, w - 16, 14, MUTED, 2)
 
     # bottom: map left, story list right
-    d.line([14, 714, W - 14, 714], fill=INK, width=2)
-    rrect(d, [14, 720, 400, 956], 3, fill=(255, 254, 249), outline=HAIR)
-    text(d, (20, 722), "WHERE IT HAPPENED · NUMBERS 1–35 IN REGION COLOURS", F_LABEL, INK)
-    draw_map(d, 20, 736, 374, 214)
+    d.line([14, 732, W - 14, 732], fill=INK, width=2)
+    rrect(d, [14, 738, 400, 956], 3, fill=(255, 254, 249), outline=HAIR)
+    text(d, (20, 740), "WHERE IT HAPPENED · NUMBERS 1–35 IN REGION COLOURS", F_LABEL, INK)
+    draw_map(d, 20, 754, 374, 196)
 
-    text(d, (408, 722), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
+    text(d, (408, 740), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
     for idx, s in enumerate(STORIES[12:]):
         col, row = divmod(idx, 12)
         x = 408 + col * 300
-        y = 740 + row * 18
+        y = 758 + row * 16
         d.rectangle([x, y + 1, x + 13, y + 13], fill=RCOL[s[1]])
         text(d, (x + 6.5, y + 7), str(s[0]), F_MICRO, (255, 255, 255), "mm")
         label = s[3]

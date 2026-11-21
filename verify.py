@@ -28,15 +28,15 @@ print("  every story has a headline, a detail line and a named source OK")
 preview = os.path.join(os.path.dirname(here), "check21")
 os.makedirs(preview, exist_ok=True)
 im.resize((300, 300), Image.LANCZOS).save(os.path.join(preview, "preview300.png"))
-im.crop((10, 184, 335, 390)).resize((975, 618)).save(os.path.join(preview, "crop_main.png"))
-im.crop((14, 390, 1010, 714)).resize((1992, 648)).save(os.path.join(preview, "crop_smallcards.png"))
-im.crop((14, 718, 402, 958)).resize((1164, 720)).save(os.path.join(preview, "crop_map.png"))
-im.crop((400, 718, 1015, 956)).resize((1230, 476)).save(os.path.join(preview, "crop_list.png"))
+im.crop((10, 184, 335, 378)).resize((975, 582)).save(os.path.join(preview, "crop_main.png"))
+im.crop((14, 380, 1010, 732)).resize((1992, 704)).save(os.path.join(preview, "crop_smallcards.png"))
+im.crop((14, 736, 402, 958)).resize((1164, 666)).save(os.path.join(preview, "crop_map.png"))
+im.crop((400, 736, 1015, 956)).resize((1230, 440)).save(os.path.join(preview, "crop_list.png"))
 print("CHECK 2 previews written OK")
 
 # map label separation: each label centre must be > 16 px from every other
 import math
-sx, sy, mw, mh = 20, 736, 374, 214
+sx, sy, mw, mh = 20, 754, 374, 196
 def proj(lon, lat):
     return (sx + (lon + 180) / 360.0 * mw, sy + (84.0 - lat) / 144.0 * mh)
 used = []
