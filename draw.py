@@ -392,31 +392,31 @@ def build():
     text(d, (14, 8), "THE WORLD IN ONE DAY", F_KICK, RED)
     text(d, (W - 14, 9), "35 STORIES · 7 REGIONS · EVERY STORY DATED SATURDAY 21 NOVEMBER 2026",
          F_TINY, MUTED, "ra")
-    text(d, (W / 2, 45), "Saturday 21 November 2026", F_HEAD, INK, "mm")
-    text(d, (W / 2, 82), "COP31 overtime  ·  three missiles down over Riyadh  ·  M6.7 Peru quake  ·  Bitcoin below $56k",
+    text(d, (W / 2, 44), "Saturday 21 November 2026", F_HEAD, INK, "mm")
+    text(d, (W / 2, 80), "COP31 overtime  ·  three missiles down over Riyadh  ·  M6.7 Peru quake  ·  Bitcoin below $56k",
          F_SUB, RED, "mm")
-    d.line([14, 96, W - 14, 96], fill=INK, width=2)
+    d.line([14, 94, W - 14, 94], fill=INK, width=2)
 
     # six big numbers, tighter
     cw = (W - 28) / 6
     for k, (val, lab) in enumerate(METRICS):
         x = 14 + k * cw
         if k:
-            d.line([x, 100, x, 133], fill=HAIR, width=1)
-        text(d, (x + 8, 99), val, F_MET, RED)
-        text(d, (x + 8, 125), lab, F_LABEL, MUTED)
-    d.line([14, 138, W - 14, 138], fill=INK, width=1)
+            d.line([x, 98, x, 131], fill=HAIR, width=1)
+        text(d, (x + 8, 97), val, F_MET, RED)
+        text(d, (x + 8, 123), lab, F_LABEL, MUTED)
+    d.line([14, 136, W - 14, 136], fill=INK, width=1)
 
     # most-reported topics, ordered by number of reports
-    text(d, (14, 142), "MOST-REPORTED TOPICS →", F_LABEL, INK)
+    text(d, (14, 140), "MOST-REPORTED TOPICS →", F_LABEL, INK)
     tx = 168
     for k, t in enumerate(TOPICS):
         col = REGIONS[k % 7][1]
         tw = d.textlength(t, font=F_TAG) + 14
-        rrect(d, [tx, 140, tx + tw, 156], 3, fill=col)
-        text(d, (tx + 7, 141), t, F_TAG, (255, 255, 255))
+        rrect(d, [tx, 138, tx + tw, 154], 3, fill=col)
+        text(d, (tx + 7, 139), t, F_TAG, (255, 255, 255))
         tx += tw + 5
-    d.line([14, 160, W - 14, 160], fill=HAIR, width=1)
+    d.line([14, 158, W - 14, 158], fill=HAIR, width=1)
 
     # region legend
     counts = {}
@@ -426,17 +426,17 @@ def build():
     for name, col in REGIONS:
         lab = "%s %d" % (name, counts.get(name, 0))
         lw = d.textlength(lab, font=F_LABEL) + 12
-        d.rectangle([lx, 163, lx + lw, 179], fill=col)
-        text(d, (lx + 6, 165), lab, F_LABEL, (255, 255, 255))
+        d.rectangle([lx, 161, lx + lw, 177], fill=col)
+        text(d, (lx + 6, 163), lab, F_LABEL, (255, 255, 255))
         lx += lw + 4
-    d.line([14, 184, W - 14, 184], fill=INK, width=2)
+    d.line([14, 182, W - 14, 182], fill=INK, width=2)
 
     # three main cards
     ills = [ill_globe, ill_missiles, ill_quake]
     for i in range(3):
         s = STORIES[i]
         x = 14 + i * 338
-        y = 190
+        y = 188
         w, h = 322, 198
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
         ills[i](d, x + 1, y + 1, w - 2, 78)
@@ -448,32 +448,32 @@ def build():
         yy = lines(d, (x + 8, y + 103), s[3], F_CARD, w - 16, 20, INK, 2)
         lines(d, (x + 8, yy + 4), s[4], F_BODY, w - 16, 14, INK, 3)
 
-    # eight larger small cards with roomier illustrations and numbers
+    # eight roomier small cards: larger number badges and larger illustrations
     for i in range(8):
         s = STORIES[3 + i]
         row, col = divmod(i, 4)
         x = 14 + col * 250
-        y = 401 + row * 140
-        w, h = 244, 134
+        y = 394 + row * 151
+        w, h = 244, 145
         d.rectangle([x, y, x + w, y + h], fill=(255, 254, 249), outline=HAIR, width=1)
-        d.rectangle([x + 1, y + 1, x + w - 1, y + 40], fill=(236, 231, 217))
-        badge(d, x + 6, y + 7, s[0], s[1], 24)
-        ill_mini(d, x + 36, y + 4, 64, 32, MINI[i], RCOL[s[1]])
-        text(d, (x + w - 6, y + 13), s[1], F_MICRO, MUTED, "ra")
-        lines(d, (x + 8, y + 45), s[3], F_CARD2, w - 16, 20, INK, 2)
-        lines(d, (x + 8, y + 90), s[4] + " (" + s[5] + ")", F_TINY, w - 16, 13, MUTED, 3)
+        d.rectangle([x + 1, y + 1, x + w - 1, y + 44], fill=(236, 231, 217))
+        badge(d, x + 6, y + 8, s[0], s[1], 26)
+        ill_mini(d, x + 38, y + 4, 70, 36, MINI[i], RCOL[s[1]])
+        text(d, (x + w - 6, y + 14), s[1], F_MICRO, MUTED, "ra")
+        lines(d, (x + 8, y + 48), s[3], F_CARD2, w - 16, 21, INK, 2)
+        lines(d, (x + 8, y + 95), s[4] + " (" + s[5] + ")", F_TINY, w - 16, 14, MUTED, 3)
 
     # bottom: map left, story list right
-    d.line([14, 681, W - 14, 681], fill=INK, width=2)
-    rrect(d, [14, 687, 400, 930], 3, fill=(255, 254, 249), outline=HAIR)
-    text(d, (20, 689), "WHERE IT HAPPENED · NUMBERS 1–35 IN REGION COLOURS", F_LABEL, INK)
-    draw_map(d, 20, 703, 374, 221)
+    d.line([14, 694, W - 14, 694], fill=INK, width=2)
+    rrect(d, [14, 700, 400, 956], 3, fill=(255, 254, 249), outline=HAIR)
+    text(d, (20, 702), "WHERE IT HAPPENED · NUMBERS 1–35 IN REGION COLOURS", F_LABEL, INK)
+    draw_map(d, 20, 716, 374, 234)
 
-    text(d, (408, 688), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
+    text(d, (408, 702), "ALSO ON SATURDAY 21 NOVEMBER — 23 MORE STORIES", F_LABEL, INK)
     for idx, s in enumerate(STORIES[12:]):
         col, row = divmod(idx, 12)
         x = 408 + col * 300
-        y = 707 + row * 19
+        y = 720 + row * 19
         d.rectangle([x, y + 1, x + 13, y + 13], fill=RCOL[s[1]])
         text(d, (x + 6.5, y + 7), str(s[0]), F_MICRO, (255, 255, 255), "mm")
         label = s[3]
@@ -481,14 +481,14 @@ def build():
             label = s[2].title() + " — " + label
         text(d, (x + 17, y + 1), fit(d, label, F_LIST, 279), F_LIST, INK)
 
-    # slim date-check and source lines hugging the bottom edge
-    rrect(d, [14, 938, W - 14, 968], 3, fill=(252, 246, 230), outline=RED, width=1)
-    text(d, (21, 942), "DATE CHECK:", F_LISTB, RED)
-    text(d, (108, 943),
+    # slim date-check and source lines, pushed down close to the bottom edge
+    rrect(d, [14, 960, W - 14, 988], 3, fill=(252, 246, 230), outline=RED, width=1)
+    text(d, (21, 964), "DATE CHECK:", F_LISTB, RED)
+    text(d, (108, 965),
          "Every story above happened or was first reported on Saturday 21 November 2026 (any time zone). "
          "Nothing from 19–20 November counted; claims attributed to source.",
          F_SMALL, INK)
-    text(d, (14, 975),
+    text(d, (14, 993),
          "Sources: Reuters · AP · AFP · BBC · Al Jazeera · ESA · USGS · Kyodo · Anadolu · Guardian · Punch · ABC · RNZ. "
          "Map: Natural Earth 110m; illustrations and layout drawn in code.",
          F_MICRO, MUTED)
