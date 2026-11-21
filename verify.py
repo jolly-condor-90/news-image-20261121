@@ -24,11 +24,13 @@ for s in draw.STORIES:
     assert s[3] and s[4] and s[5], s[0]
 print("  every story has a headline, a detail line and a named source OK")
 
-# 300 px preview and detail crops for visual review
-im.resize((300, 300), Image.LANCZOS).save(os.path.join(here, "preview300.png"))
-im.crop((10, 215, 335, 440)).resize((975, 675)).save(os.path.join(here, "crop_main.png"))
-im.crop((14, 660, 402, 936)).resize((1164, 828)).save(os.path.join(here, "crop_map.png"))
-im.crop((400, 655, 1015, 938)).resize((1230, 566)).save(os.path.join(here, "crop_list.png"))
+# 300 px preview and detail crops for visual review, kept outside the repository
+preview = os.path.join(os.path.dirname(here), "check21")
+os.makedirs(preview, exist_ok=True)
+im.resize((300, 300), Image.LANCZOS).save(os.path.join(preview, "preview300.png"))
+im.crop((10, 215, 335, 440)).resize((975, 675)).save(os.path.join(preview, "crop_main.png"))
+im.crop((14, 660, 402, 936)).resize((1164, 828)).save(os.path.join(preview, "crop_map.png"))
+im.crop((400, 655, 1015, 938)).resize((1230, 566)).save(os.path.join(preview, "crop_list.png"))
 print("CHECK 2 previews written OK")
 
 # map label separation: each label centre must be > 16 px from every other
